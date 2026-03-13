@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Evolving Pheromone Robots
 
 Generalizing alife-sim and genetic algorithm to ant-like robot bodies that evolve from mostly random wandering into more efficient pheromone-guided foraging for food using:

@@ -1,4 +1,3 @@
-# LITE VERSION: simplified parameters for lower-end laptops
 import math
 import os
 import random
@@ -12,15 +11,15 @@ import pygame
 # Evolving Pheromone Foraging Robots
 # ------------------------------------------------
 # Standalone Artificial Life final project
-# - Ant-like differential-drive robots (alife-sim style bodies)
+# - Ant differential-drive robots (alife-sim style bodies)
 # - Pheromone heatmap
-# - Genetic algorithm evolves behavior from random search to
+# - GA evolves behavior from random search to
 #   efficient pheromone-guided foraging
 # - Live visualization in pygame
 # ================================================================
 
 # -----------------------------
-# User-tunable project settings
+# tunable project settings
 # -----------------------------
 WINDOW_W = 1100
 WINDOW_H = 760
@@ -54,7 +53,7 @@ EVAL_TRIALS = 2
 DRAW_SENSOR_LINES = False
 DRAW_TEXT = True
 SAVE_PLOT_AT_END = True
-FAST_RENDER_SKIP = 2  # draw only every Nth sim step during replay to reduce load
+FAST_RENDER_SKIP = 2
 N_FIXED_LAYOUTS = 2
 
 # Reproducibility
