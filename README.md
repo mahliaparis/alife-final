@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Evolving Pheromone Robots
 
 Generalizing alife-sim and genetic algorithm to ant-like robot bodies that evolve from mostly random wandering into more efficient pheromone-guided foraging for food using:
@@ -34,3 +35,6 @@ Each ant operates using only local information. Agents sense pheromone levels wi
 
 ## Organized trail networks emerge from local rules only.
 Even though individual ants follow simple local behaviors, the colony eventually forms stable pheromone trails between the nest and food sources. Trails strengthen as ants repeatedly travel the same successful routes and weaken through evaporation elsewhere. This feedback process produces organized trail networks without any centralized coordination, demonstrating emergent behavior in a swarm system.
+=======
+# alife-final
+>>>>>>> c1f2dba47b4a5e1f417d29e4ff4b5c18f1ac4080
