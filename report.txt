@@ -1,0 +1,150 @@
+Overview:
+
+This implements an alife-sim where ant robots evolve the ability to forage for food 
+using pheromone trails. The goal was to demonstrate how swarm behavior and adaptive 
+strategies can emerge through simple local rules if combined with evolutionary optimization. 
+Instead of programming optimal behavior directly, the simulation evolves behavioral 
+parameters using a GA. Each ant is modeled as a simple robot with limited 
+sensing and movement capabilities. The robots interact with a pheromone field and food 
+sources in a 2D environment. Over successive generations, the GA improves parameters that 
+control movement, sensing, and pheromone behavior. Early generations show mostly random 
+exploration, but later generations evolve efficient trail-following behavior that allows 
+the colony to retrieve food more consistently. The simulation is meant to demonstrate the idea that 
+complex global behavior can emerge from simple individual rules combined with genome selection.
+
+Environment:
+
+Continuous 2D environment with a pheromone grid layered on top. The grid stores pheromone 
+intensity values that ants both read and modify. Pheromone values gradually decay over time, 
+which prevents trails from persisting indefinitely and allows the system to adapt.
+The environment contains three main elements:
+- a central nest where ants start and return food
+- several food patches placed away from the nest
+- a pheromone grid used for indirect communication
+
+The pheromone grid resolution is determined by the CELL parameter, which defines the size 
+of each grid cell. Ants leave behind pheromone while carrying food back to the nest, 
+reinforcing successful paths. Food patches have a limited number of food units. 
+Ants detect food by entering a patch radius and then carry the food back to the nest. 
+This creates the feedback loop for trail formation.
+
+
+Ant Robot Modeling:
+
+Each ant is implemented as a simple differential-drive robot. The robot maintains a position, 
+orientation, and two virtual "wheels" controlling movement. The motion model is:
+
+forward_speed = (left_wheel + right_wheel) / 2
+angular_speed = (right_wheel − left_wheel)
+
+Ants have two pheromone sensors positioned in front of the body at an angle relative 
+to the robot’s heading. These sensors detect pheromone intensity on the left and right 
+sides. The difference between these readings produces a turning bias that causes the robot 
+to follow pheromone gradients. Ant behavior is controlled by a set of genome parameters.
+
+
+Genome Representation:
+
+Each genome contains parameters that directly influence the ant’s behavior. These parameters 
+were chosen so changes produce observable behavioral differences during evolution.
+
+Key genome parameters:
+- speed – forward movement speed
+- turn_gain – sensitivity to sensor imbalance
+- sensor_distance – distance of pheromone sensors from the robot
+- sensor_angle – angle between sensors
+- random_turn – randomness in exploration
+- pheromone_follow – strength of pheromone attraction
+- pheromone_deposit – amount of pheromone dropped while carrying food
+- evaporation_resist – influence on pheromone persistence
+- food_bias – attraction toward nearby food
+- nest_bias – attraction toward the nest when carrying food
+
+These parameters are clipped within ranges to prevent unrealistic behaviors. This ensures 
+the GA searches within a stable parameter space.
+
+
+
+Genetic Algorithm:
+
+The GA evolves the behavioral parameters over multiple generations. Main parameters are:
+POP_SIZE = 6
+ELITES = 2
+MUTATION_RATE = 0.16
+GENERATIONS = 32
+
+Each generation follows the standard evolutionary cycle:
+Evaluate all genomes
+Rank by fitness
+Preserve elite individuals
+Create new genomes through crossover
+Apply random mutation
+Form the next population
+
+Crossover combines parameters from two parents, while mutation alters parameters using 
+Gaussian noise. Mutation rates and scales were tuned so exploration remains stable 
+without destroying useful behaviors.
+
+
+
+Fitness Evaluation:
+
+Fitness is based on how much food ants return to the nest. The fitness function includes a 
+small bonus for more intense pheromone trail formation:
+
+fitness = food_returned + trail_bonus
+
+to encourage behaviors that locate food efficiently and reinforce pheromone paths that 
+guide other ants. Each genome is evaluated using multiple trials to reduce randomness. 
+
+
+
+Evolution Results:
+
+The fitness graph should show clear improvement across generations. Early generations 
+produce low scores because ants move randomly and rarely find food. As evolution progresses, 
+parameter combinations that improve trail following begin to dominate the population.
+Later generations develop consistent pheromone highways between the nest and food sources. 
+These trails allow ants to travel more directly between resources, significantly improving 
+colony efficiency. Both best fitness and average fitness increase over time, indicating that 
+successful behaviors spread through the population.
+
+
+
+Runtime Analysis:
+
+The computational cost of each generation depends on parameters and each genome is evaluated for:
+EVAL_TRIALS = 2
+STEPS_PER_EVAL = 700
+
+With a population size of 12, this results in:
+6 genomes × 2 trials × 700 steps = 8400 simulation steps per generation.
+Across 32 generations, the total number of simulation steps is approximately 268,800. 
+This runs in just a few minutes on my laptop, but increasing the population size and steps 
+slowed down run time and the visuals were choppy. Population size was intentionally kept 
+small to allow the simulation to run interactively while still demonstrating improvement.
+
+
+
+Parameter Optimization:
+The mutation rate of 0.16 allows sufficient exploration while maintaining useful behaviors across 
+generations. Mutation scale varies depending on parameter type so that large parameters 
+(e.g. sensor distance) mutate differently from smaller values (e.g. turn gain).
+The number of ants:
+N_ANTS = 12
+
+This allows enough agents to generate pheromone trails without making the simulation too c
+omputationally expensive. You can also change the food layout to become fixed and observe 
+consistently modeled evolution, but I thought random generation showed more realistic variation.
+
+
+
+
+How it connects to what we talked about in class:
+
+- Emergent behavior can arise from simple local rules. Individual ants follow basic movement 
+and sensing rules, but collectively they produce organized trail systems.
+- Swarm intelligence, where group coordination emerges without centralized control.
+- Evolutionary adaptation through a GA. Not manually designing optimal behavior, 
+evolution discovers effective parameter combinations through selection and mutation.
+

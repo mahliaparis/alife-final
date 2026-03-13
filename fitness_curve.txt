@@ -1,0 +1,33 @@
+The fitness curve shows two main values across generations: best fitness in the generation 
+and average fitness of the population. Both values generally increase over time, which 
+indicates that the GA is improving the ants’ foraging behavior. In the early generations, 
+fitness is relatively low because the genomes are randomly initialized. This means the ants 
+mostly move randomly and rarely form consistent pheromone trails. As evolution progresses, 
+parameter combinations that improve pheromone-following and nest-return behavior become more 
+common, leading to higher fitness values.
+
+The average fitness represents how the population as a whole is improving. In the first few 
+generations, most genomes perform poorly, so the average fitness stays low. Over time, 
+successful traits spread through the population through crossover and mutation. As more genomes 
+begin to produce effective behaviors, the average fitness gradually increases.
+
+The best fitness in each generation represents the highest-performing genome in that generation. 
+This value often increases more quickly than the average fitness because even a single genome 
+with a strong parameter combination can produce much better performance than the rest of the 
+population. This can appear as sudden increases in the best fitness line when the GA discovers 
+a genome that produces stronger pheromone trails or more efficient food retrieval.
+
+The code also keeps track of a global best genome, which is the highest fitness individual 
+discovered during the entire run of the simulation. This genome is saved and replayed at the 
+end so the final visualization shows the most effective behavior evolved by the GA. While 
+the best genome in a generation may fluctuate, the global best represents the strongest 
+solution discovered overall.
+
+Several implementation choices contribute to the fitness improvements seen in the graph. The 
+fitness function mainly rewards the amount of food returned to the nest, with a small additional 
+reward for overall pheromone trail strength. This encourages behaviors that both collect food 
+efficiently and reinforce trails that other ants can follow. The mutation and crossover operations 
+allow the GA to explore new combinations of behavior parameters, while elite selection ensures 
+that the best-performing genomes are preserved between generations. Together, these mechanisms 
+gradually improve the colony’s behavior and produce the upward trend seen in the fitness curve, 
+which is similar to how beneficial traits spread through populations in biological evolution.
